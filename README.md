@@ -6,10 +6,12 @@
 
 ## 这不是某个平台的插件
 
-本仓库就是一份 `SKILL.md`（工作流定义）+ 四个普通 Python 脚本，**不依赖任何特定 Agent 平台**：
+本仓库就是一份 `SKILL.md`（工作流定义）+ 四个普通 Python 脚本，**任何智能体都可以使用**——只要它能读文件、能执行命令，就没有任何门槛：
 
-- **ZCode / Claude Code** 等支持技能（Skill）的 Agent：把 `SKILL.md` 放进其技能目录即可用斜杠命令调用；
-- **任何能执行命令的 Agent**（Cursor、Codex、其他 CLI Agent 等）：把 SKILL.md 的路径发给它，说"按这个流程压缩这本书"，它读完就会照着执行，脚本用系统 Python 跑即可。
+- **有技能/斜杠命令系统的 Agent**：把 `SKILL.md` 放进其技能目录即可用命令调用；
+- **没有技能系统的 Agent**：无需安装，把 SKILL.md 的路径发给它，说"按这个流程压缩这本书"，它读完就会照着执行，脚本用系统 Python 跑即可。
+
+换平台、换模型都不影响——因为方法论全部写在 SKILL.md 里，工具只是 pandoc 和几个标准库脚本。
 
 ## 文件结构
 
@@ -27,9 +29,8 @@ book-compress/
 ## 安装（3 步）
 
 1. **放置文件**：
-   - ZCode：`SKILL.md` → `~/.zcode/skills/book-compress/`，`tools/` → 工作区；
-   - Claude Code：`SKILL.md` → `~/.claude/skills/book-compress/`；
-   - 其他 Agent：无需安装，把 SKILL.md 路径告诉它即可。
+   - 支持技能目录的 Agent：把 `SKILL.md` 放进其技能目录（各家目录不同，如 `~/.zcode/skills/`、`~/.claude/skills/` 等）；
+   - 其他任何 Agent：无需放置，能告诉它 SKILL.md 的路径即可。
    （SKILL.md 里的 `<skill-dir>/scripts/`、`<python>` 是占位符，对应你实际的脚本目录和 Python 调用方式）
 
 2. **装依赖**（详见 [INSTALL.md](INSTALL.md)）：
@@ -40,7 +41,7 @@ book-compress/
 
 3. **调用**：
    ```
-   /book-compress <书的路径>          # ZCode / Claude Code
+   /book-compress <书的路径>          # 支持斜杠命令的 Agent
    "按 SKILL.md 的流程压缩这本书"    # 其他 Agent
    ```
 
